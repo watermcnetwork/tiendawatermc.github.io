@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra - WaterMC</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Cabecera -->
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <img src="assets/server-icon.png" alt="WaterMC Logo" class="logo-img">
+                <h1>WaterMC</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="#shop">Tienda</a></li>
+                    <li><a href="info.html">Información</a></li>
+                    <li><a href="#contact">Soporte</a></li>
+                    <li><a href="compra.html">Compra</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sección Compra -->
+    <section class="section-compra">
+        <div class="container">
+            <h2>Generar Código de Compra</h2>
+            <p>Estás comprando el rango: <strong id="rango-nombre">...</strong></p>
+            <p>Introduce tu Nick de Minecraft para generar un código aleatorio de compra.</p>
+
+            <!-- Formulario para generar código -->
+            <form id="form-compra" action="javascript:void(0);" method="post">
+                <label for="nick">Nick de Minecraft</label>
+                <input type="text" id="nick" name="nick" placeholder="Tu Nick de Minecraft" required>
+                <button type="submit" class="btn">Generar Código</button>
+            </form>
+
+            <!-- Área donde se muestra el código generado -->
+            <div class="codigo-generado" id="codigo-generado" style="display: none;">
+                <h3>Tu Código de Compra:</h3>
+                <p id="codigo"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pie de Página -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 WaterMC. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Script para generar código y manejar parámetros de la URL -->
+    <script>
+        // Función para generar código aleatorio
+        function generarCodigo() {
+            const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let codigo = '';
+            for (let i = 0; i < 8; i++) {
+                codigo += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+            }
+            return codigo;
+        }
+
+        // Obtener el parámetro 'rango' de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const rango = urlParams.get('rango');
+        document.getElementById('rango-nombre').textContent = rango || 'Rango no especificado'; // Mostrar el rango
+
+        // Manejo del formulario
+        document.getElementById('form-compra').addEventListener('submit', function() {
+            const nick = document.getElementById('nick').value;
+            if (nick) {
+                const codigo = generarCodigo();
+                document.getElementById('codigo').textContent = codigo;
+                document.getElementById('codigo-generado').style.display = 'block'; // Mostrar el código
+            } else {
+                alert('Por favor, ingresa tu Nick de Minecraft.');
+            }
+        });
+    </script>
+</body>
+</html>
